@@ -16,6 +16,7 @@ class MyForm(QDialog):
         self.ui.setupUi(self)
         self.ui.comboBox.addItems([f'{p.name} {p.lastName}' for p in self.persons.persons])
         self.ui.saveButton.clicked.connect(self.save_to_file)
+        self.ui.comboBox.currentIndexChanged.connect(self.on_person_selected)
         self.show()
 
     def save_to_file(self):
@@ -37,6 +38,12 @@ class MyForm(QDialog):
             message.setText(e.__str__())
             message.exec()
 
+    def on_person_selected(self, index):
+        if index >= 0:
+            person = self.persons.persons[index]
+            self.ui.streetEdit.setText(person.address.street)
+            self.ui.zipCodeEdit.setText(person.address.zipcode)
+            self.ui.cityEdit.setText(person.address.city)
 
 
 if __name__ == "__main__":
